@@ -108,7 +108,17 @@ def register_routes(app):
             customer.customer_name = name
             customer.phone_number = phone or customer.phone_number
             customer.newsletter_signup = customer.newsletter_signup or newsletter
+
         db.session.flush()  # get customer.customer_id before commit
+
+        if newsletter:
+            existing_signup = NewsletterSignup.query.filter(
+                func.lower(NewsletterSignup.email) == email.lower()
+            ).first()
+
+            if existing_signup is None:
+                signup = NewsletterSignup(email=email)
+                db.session.add(signup)
 
         reservation = Reservation(
             customer_id=customer.customer_id,

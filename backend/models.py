@@ -52,7 +52,7 @@ class Reservation(db.Model):
 
 
 class NewsletterSignup(db.Model):
-    """Stand-alone signups (visitors who subscribe without booking a table)."""
+    """Stores all newsletter subscriber email addresses."""
 
     __tablename__ = "newsletter_signups"
 
