@@ -46,3 +46,130 @@ execution.
   final submission, per the assignment note.
 - No automated test suite was written, consistent with the assignment's
   note that significant testing is out of scope for this project.
+
+------------------------------------------------------------------------------------------------
+8/24/2026
+
+AI Tooling Summary — Café Fausse
+Team: Jay Bryant, Sanantanita Burnette, Lan Yun 
+Project: Café Fausse — React (JSX) + Flask + PostgreSQL 
+Repository this copy lives in: https://github.com/greenpharey/cafe-fausse
+
+How to use this file. This document is kept identical in all three team repositories. Section 1 and Section 3 are written together by the team. Section 2 contains one subsection per member — you write your own and leave your teammates' as they wrote them. Replace every <placeholder>, delete every <!-- guidance --> comment and this instruction block before committing. If a prompt doesn't apply to you, delete the line rather than writing "N/A".
+
+
+1. Project-level tooling
+    What it was used for                   Tool           Used by
+1.1 The 16 site images in frontend      chayGPT           Jay
+1.2 SRS traceability matrix             Claude Cowork     Lan
+1.3   
+1.4
+
+
+How the requirements reached the tools
+<Describe how the SRS and project brief were given to the AI tools — e.g. "both PDFs were uploaded directly and used as the source of truth for the page list, the Customers/Reservations schema, the 30-table reservation rule, and the menu items and prices in frontend/src/data/menu.js.">
+What the AI generated vs. what we changed by hand
+Generated largely as-is: <e.g. backend/models.py, the routing shell in App.jsx>
+Generated then substantially reworked by hand: <e.g. the reservation validation in app.py, index.css tokens>
+Written by hand: <e.g. the PostgreSQL setup steps in README.md, the copy on the About page>
+How we worked together
+<Describe the collaboration mechanics — one shared repo with branches and PRs? Separate branches per feature? How you avoided three AI tools producing conflicting versions of the same file. One or two sentences is enough.>
+
+
+2. Individual contributions
+Jay Bryant  — <area of ownership, e.g. Flask API & PostgreSQL>
+Tools I used personally: <tool(s) + version>
+
+What I used them for:
+
+Brand direction: palette, type, photographic tone
+Full site copy draft for all five pages
+Image set curated, compressed, renamed
+About Us page built in React
+Gallery page responsive grid
+Awards and reviews reusable component
+Newsletter form UX and inline validation polish
+Gallery lightbox interaction
+QA across four browsers plus mobile simulator
+Defect log with owner and severity
+Presentation script and shot-by-shot demo flow
+Speaking segments assigned to all three members
+Recording session booked, government IDs confirmed
+
+A specific example:
+
+What I asked for: <paraphrase or quote the prompt> What it produced: <what came back> What I changed: <what you fixed, rejected, or rewrote — and why>
+
+What worked well: <be specific — which kinds of tasks the tool handled cleanly>
+
+What didn't work: <where it produced something wrong, over-complicated, or subtly broken, and how you caught it>
+
+How I verified its output: <e.g. "ran the endpoint against local Postgres and checked the rows in psql", "submitted 30 reservations for one time slot to confirm the fully-booked path returns 409">
+
+
+Sanantanita Burnette  — <area of ownership, e.g. Flask API & PostgreSQL>
+Tools I used personally: <tool(s) + version>
+
+What I used them for:
+React scaffold with Router across five routes
+CSS design tokens, Grid and Flexbox primitives
+Shared Layout, Nav, Footer components
+GitHub Actions lint and build checks
+Home page: hero, contact block, featured content
+Menu page with category-driven components
+Responsive navigation breakpoints
+Fetch layer with loading and error states
+CORS and environment configuration
+Reservations form UI with client-side validation
+WCAG, keyboard navigation, focus state audit
+Image and bundle performance pass
+Staging deployment plus staging.md
+
+A specific example:
+
+What I asked for: <paraphrase or quote the prompt> What it produced: <what came back> What I changed: <what you fixed, rejected, or rewrote — and why>
+
+What worked well: <be specific — which kinds of tasks the tool handled cleanly>
+
+What didn't work: <where it produced something wrong, over-complicated, or subtly broken, and how you caught it>
+
+How I verified its output: <e.g. "ran the endpoint against local Postgres and checked the rows in psql", "submitted 30 reservations for one time slot to confirm the fully-booked path returns 409">
+
+
+Lan Yun
+Tools I used personally: Claude Cowork Opus 5
+
+What I used them for:
+PostgreSQL Installation 
+SRS traceability matrix
+PostgreSQL DDL: customers, reservations, newsletter
+Flask skeleton with SQLAlchemy models
+POST /api/reservations with 30-table availability check
+POST /api/newsletter with server-side validation
+Random available table assignment
+Database seeded and endpoints verified
+Edge cases: full slots, double booking, duplicate emails, past dates, concurrency
+Database constraints and indexes
+Confirmation and rejection messaging
+
+I used conversationally with the project documents uploaded as context. No AI IDE; I ran and verified everything myself on my own machine.
+
+A specific example: I uploaded SRS requirements and extracted them to a list of 40 items then built a traceability matrix mapping into design, implementation and testing phase. I did the same thing to Rubrics reconciliation too. 
+
+What I asked for:  
+What it produced:  
+What I changed: 
+
+What worked well: Almost all of it worked out well. 
+
+What didn't work: 
+
+How I verified its output: I ran commands in terminal to verify. 
+
+Installed and configured PostgreSQL 16 locally, applied the DDL, and inspected the result with \dt and \d reservations to confirm the tables, unique constraint, check constraints, and indexes matched the SRS.
+Exercised every endpoint by hand and confirmed each status code: 200 health, 201 confirmed booking with a table number in range, 400 past date, 400 malformed timestamp, 409 fully booked, 400 invalid email, 201 newsletter signup.
+
+
+4. Scope and honesty statement
+All AI-generated code in this repository was reviewed, tested, and where necessary corrected by the team member responsible for that area. Every design and implementation decision described in README.md was made by us. The site images in frontend/public/ are <AI-generated / royalty-free> and are cleared for use per the project brief. No automated test suite was written, consistent with the brief's note that significant testing is outside this project's scope; verification was manual and is described in README.md under Testing Notes.
+
