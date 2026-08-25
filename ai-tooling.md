@@ -77,35 +77,30 @@ How we worked together
 
 
 2. Individual contributions
-Jay Bryant  — <area of ownership, e.g. Flask API & PostgreSQL>
-Tools I used personally: <tool(s) + version>
+Jay Bryant  — Project Management, Content Creation, Visual Direction, Images and QA
+Tools I used personally: Claude.ai Opus 5, Perplexity.ai
 
 What I used them for:
 
+Generating project plan and team assignments.
 Brand direction: palette, type, photographic tone
 Full site copy draft for all five pages
 Image set curated, compressed, renamed
-About Us page built in React
-Gallery page responsive grid
+About Us page content
+Gallery page content
 Awards and reviews reusable component
-Newsletter form UX and inline validation polish
-Gallery lightbox interaction
 QA across four browsers plus mobile simulator
-Defect log with owner and severity
 Presentation script and shot-by-shot demo flow
 Speaking segments assigned to all three members
 Recording session booked, government IDs confirmed
 
 A specific example:
 
-What I asked for: <paraphrase or quote the prompt> What it produced: <what came back> What I changed: <what you fixed, rejected, or rewrote — and why>
+What I asked for: Using the profiles of Jay, Lan and San,  create a project plan with based on their background and skill sets to equally divide the work in the Web App and Interface Design Requirements document with weekly deadlines starting this week and completion by Sept 4, 2026.  Before you start ask me any clarifying questions you may have? What it produced: A full project plan and assignments for the group.  What I changed: Additional query of Give me a 1 page table with what is due each week in a word doc that made things more simple that was produced.
 
-What worked well: <be specific — which kinds of tasks the tool handled cleanly>
-
-What didn't work: <where it produced something wrong, over-complicated, or subtly broken, and how you caught it>
-
-How I verified its output: <e.g. "ran the endpoint against local Postgres and checked the rows in psql", "submitted 30 reservations for one time slot to confirm the fully-booked path returns 409">
-
+What worked well: Organizing the group project and genderation of images and text.   It gave very detailed instructions for content placement. 
+What didn't work: It tended to over complicate the output. 
+How I verified its output: I reviewed the output against the requirements document. 
 
 Sanantanita Burnette  — <area of ownership, e.g. Flask API & PostgreSQL>
 Tools I used personally: <tool(s) + version>
