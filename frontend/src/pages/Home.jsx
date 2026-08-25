@@ -32,12 +32,9 @@ export default function Home() {
         <div className="container">
           <div className="grid grid--3">
             <div className="info-card">
-              <p className="eyebrow">Address</p>
-              <h3>Find Us</h3>
+              <p className="eyebrow">Our Story</p>
               <p>
-                1234 Culinary Ave, Suite 100
-                <br />
-                Washington, DC 20002
+                Since 2010 we have served food that rewards attention. The Michelin Guide has held our two stars since 2022, and both the Washington Post and the New York Times have given the room their highest rating. Come for a quiet table, an unhurried pace, and plates that arrive the way our kitchen intended.
               </p>
             </div>
             <div className="info-card">
@@ -58,9 +55,13 @@ export default function Home() {
               <p className="eyebrow">Contact</p>
               <h3>Reach Us</h3>
               <p>(202) 555-4567</p>
-              <Link className="btn btn--outline" to="/reservations" style={{ marginTop: "0.5rem" }}>
-                Book a Table
-              </Link>
+              <p className="eyebrow">Address</p>
+              <h3>Find Us</h3>
+              <p>
+                1234 Culinary Ave, Suite 100
+                <br />
+                Washington, DC 20002
+              </p>
             </div>
           </div>
         </div>

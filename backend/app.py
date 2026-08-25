@@ -1,6 +1,7 @@
 import random
 import re
 from datetime import datetime
+from sqlalchemy.exc import IntegrityError
 
 from flask import Flask, jsonify, request
 from flask_cors import CORS
@@ -69,65 +70,88 @@ def register_routes(app):
 
         if errors:
             return jsonify({"success": False, "errors": errors}), 400
+            
+        for attempt in range(3):
+          # ---- table availability check (re-read fresh each attempt) ----
+            occupied_tables = {
+                row.table_number
+                for row in Reservation.query.filter_by(time_slot=time_slot).all()
+            }
+            available_tables = [
+                t for t in range(1, app.config["TOTAL_TABLES"] + 1)
+                if t not in occupied_tables
+            ]
 
-        # ---- table availability check ----
-        occupied_tables = {
-            row.table_number
-            for row in Reservation.query.filter_by(time_slot=time_slot).all()
-        }
-        available_tables = [
-            t for t in range(1, app.config["TOTAL_TABLES"] + 1) if t not in occupied_tables
-        ]
+            if not available_tables:
+                return (
+                    jsonify(
+                        {
+                            "success": False,
+                            "errors": [
+                                "That time slot is fully booked. Please choose another time."
+                            ],
+                        }
+                    ),
+                    409,
+                )
 
-        if not available_tables:
+            assigned_table = random.choice(available_tables)
+
+            # ---- persist customer (reuse if email already on file) ----
+            customer = Customer.query.filter_by(customer_email=email).first()
+            if customer is None:
+                customer = Customer(
+                    customer_name=name,
+                    customer_email=email,
+                    phone_number=phone,
+                    newsletter_signup=newsletter,
+                )
+                db.session.add(customer)
+            else:
+                customer.customer_name = name
+                customer.phone_number = phone or customer.phone_number
+                customer.newsletter_signup = customer.newsletter_signup or newsletter
+
+            db.session.flush()  # get customer.customer_id before commit
+
+            if newsletter:
+                existing_signup = NewsletterSignup.query.filter(
+                    func.lower(NewsletterSignup.email) == email.lower()
+                ).first()
+
+                if existing_signup is None:
+                    signup = NewsletterSignup(email=email)
+                    db.session.add(signup)
+
+            reservation = Reservation(
+                customer_id=customer.customer_id,
+                time_slot=time_slot,
+                table_number=assigned_table,
+                number_of_guests=guests,
+            )
+            db.session.add(reservation)
+
+            try:
+                db.session.commit()
+                break  # success
+            except IntegrityError:
+                # Another request took this exact table at this exact slot
+                # between our availability check and our commit. Roll back
+                # and retry with a freshly-read table list.
+                db.session.rollback()
+                continue
+        else:
             return (
                 jsonify(
                     {
                         "success": False,
                         "errors": [
-                            "That time slot is fully booked. Please choose another time."
+                            "That time slot is in high demand right now. Please try again."
                         ],
                     }
                 ),
-                409,
+                503,
             )
-
-        assigned_table = random.choice(available_tables)
-
-        # ---- persist customer (reuse if email already on file) ----
-        customer = Customer.query.filter_by(customer_email=email).first()
-        if customer is None:
-            customer = Customer(
-                customer_name=name,
-                customer_email=email,
-                phone_number=phone,
-                newsletter_signup=newsletter,
-            )
-            db.session.add(customer)
-        else:
-            customer.customer_name = name
-            customer.phone_number = phone or customer.phone_number
-            customer.newsletter_signup = customer.newsletter_signup or newsletter
-
-        db.session.flush()  # get customer.customer_id before commit
-
-        if newsletter:
-            existing_signup = NewsletterSignup.query.filter(
-                func.lower(NewsletterSignup.email) == email.lower()
-            ).first()
-
-            if existing_signup is None:
-                signup = NewsletterSignup(email=email)
-                db.session.add(signup)
-
-        reservation = Reservation(
-            customer_id=customer.customer_id,
-            time_slot=time_slot,
-            table_number=assigned_table,
-            number_of_guests=guests,
-        )
-        db.session.add(reservation)
-        db.session.commit()
 
         return (
             jsonify(

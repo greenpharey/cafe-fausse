@@ -32,6 +32,12 @@ class Customer(db.Model):
 class Reservation(db.Model):
     __tablename__ = "reservations"
 
+    """Added to ensure timeslots are not duplicated""" 
+    __table_args__ = (
+        db.UniqueConstraint("time_slot", "table_number", name="uq_reservation_slot_table"),
+    )
+
+
     reservation_id = db.Column(db.Integer, primary_key=True)
     customer_id = db.Column(
         db.Integer, db.ForeignKey("customers.customer_id"), nullable=False
