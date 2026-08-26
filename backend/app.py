@@ -68,6 +68,9 @@ def register_routes(app):
             except ValueError:
                 errors.append("Time slot must be a valid date and time.")
 
+        if time_slot and time_slot < datetime.now():
+            errors.append("Time slot must be in the future.")
+
         if errors:
             return jsonify({"success": False, "errors": errors}), 400
             
